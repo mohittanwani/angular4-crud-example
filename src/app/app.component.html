@@ -1,0 +1,86 @@
+<div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
+  
+
+  <div class="modal fade" id="add-edit-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add/Edit Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="userForm" (ngSubmit)="saveUser(formFlag)">
+        <div class="modal-body">
+          <input type="hidden" class="input-sm form-control" formControlName="id">
+          <div class="form-group">
+            <input type="text" class="input-sm form-control" formControlName="name">
+            <p class="help-block" *ngIf="!userForm.get('name').valid && userForm.get('name').touched">Please enter Name.</p>
+          </div>
+          <div class="form-group">
+            <input type="text" class="input-sm form-control" formControlName="jobTitle">
+            <p class="help-block" *ngIf="!userForm.get('jobTitle').valid && userForm.get('jobTitle').touched">Please enter Job Title.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" #modalClose data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Save changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-edit-Modal"  (click)="initUser()">Add</button>
+  <data-table id="persons-grid"
+    headerTitle="Angular 4 CRUD Example With Bootstrap 4 Datatable"
+    [items]="items"
+    [itemCount]="itemCount"
+    (reload)="reloadItems($event)"
+
+    (rowClick)="rowClick($event)"
+    (rowDoubleClick)="rowDoubleClick($event)"
+    [rowTooltip]="rowTooltip"
+    >
+    <data-table-column
+        [property]="'name'"
+        [header]="'Name'"
+        [sortable]="true"
+        [resizable]="true"
+        >
+    </data-table-column>
+    <data-table-column
+        [property]="'jobTitle'"
+        [header]="'Job title'"
+        [sortable]="true"
+        >        
+    </data-table-column>
+    <data-table-column
+        [property]="'active'"
+        [header]="'Active'"
+        [width]="100"
+        [resizable]="true">
+        <template #dataTableHeader let-item="item">
+            <span style="color: rgb(232, 0, 0)">Active</span>
+        </template>
+        <template #dataTableCell let-item="item">
+            <span style="color: grey">
+            <span class="fa fa-check" *ngIf="item.active"></span>
+            <span class="fa fa-times" *ngIf="!item.active"></span>
+            </span>
+        </template>
+    </data-table-column>
+    <data-table-column
+      [property]="'Actions'"
+      [header]="'Actions'">
+      <template #dataTableCell let-item="item">
+            <span style="color: rgb(232, 0, 0)">
+            <a href="javascript:void(0);" (click)="getData(item)" data-toggle="modal" data-target="#add-edit-Modal">Edit</a>
+            </span>
+            <span style="color: rgb(232, 0, 0)">
+            <a href="javascript:void(0);" (click)="delData(item)">Delete</a>
+            </span>
+      </template>
+    </data-table-column>
+  </data-table>
+</div>
